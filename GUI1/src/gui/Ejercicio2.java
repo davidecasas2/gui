@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Font;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -40,6 +42,9 @@ public class Ejercicio2 extends JFrame {
 	 * Create the frame.
 	 */
 	public Ejercicio2() {
+		String msg = JOptionPane.showInputDialog(null, 
+	            "Introduce un mensaje");
+
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
