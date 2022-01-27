@@ -96,6 +96,8 @@ public class Ejercicio2 extends JFrame {
 		});
 		btnNewButton.setBounds(164, 150, 89, 23);
 		contentPane.add(btnNewButton);
+		
+		getRootPane().setDefaultButton(btnNewButton);
 	}
 	
 	public void accionBoton1() {
