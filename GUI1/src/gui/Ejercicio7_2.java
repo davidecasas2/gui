@@ -25,6 +25,14 @@ public class Ejercicio7_2 extends JFrame {
 	private JPanel panel;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JComboBox comboBox;
+	private Color listaColores[] = { 
+			Color.BLUE, Color.RED, Color.GREEN, Color.magenta, Color.YELLOW, 
+			Color.CYAN, Color.BLACK
+	};
+	private String etiquetasColores[] = { 
+			"Azul", "Rojo", "Verde", "Magenta", "Amarilo", "Cian", "Negro"
+	};
+
 
 	/**
 	 * Launch the application.
@@ -67,24 +75,15 @@ public class Ejercicio7_2 extends JFrame {
 			}
 			
 		});
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Azul", "Rojo", "Verde", "Magenta"}));
+		comboBox.setModel(new DefaultComboBoxModel(etiquetasColores));
 		contentPane.add(comboBox, "cell 2 2 3 1,growx");
 		
 		panel = new JPanel();
 		contentPane.add(panel, "cell 2 3 3 3,grow");
 	}
 	
-	public void colorear() {
-		String color = (String) comboBox.getSelectedItem();
-		if (color.equals("Rojo")) {
-			panel.setBackground(Color.RED);
-		} else if(color.equals("Azul")) {
-			panel.setBackground(Color.BLUE);
-		} else if(color.equals("Verde")) {
-			panel.setBackground(Color.GREEN);
-		} else {
-			panel.setBackground(Color.MAGENTA);
-		}
+	public void colorear() {		
+		panel.setBackground(listaColores[comboBox.getSelectedIndex()]);
 	}
 
 }
