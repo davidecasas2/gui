@@ -6,6 +6,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import modelo.Alumno;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -16,7 +18,12 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.SwingConstants;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.awt.event.ActionEvent;
+import javax.swing.JTextArea;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class Ejercicio4 extends JFrame {
 
@@ -27,6 +34,8 @@ public class Ejercicio4 extends JFrame {
 	private JTextField txtNota3;
 	private JLabel lblPromedio;
 	private JLabel lblResultado;
+	private ArrayList<Alumno> listaAlumnos;
+	private JTable tablaAlumnos;
 
 	/**
 	 * Launch the application.
@@ -48,6 +57,7 @@ public class Ejercicio4 extends JFrame {
 	 * Create the frame.
 	 */
 	public Ejercicio4() {
+		listaAlumnos = new ArrayList<Alumno>();
 		setTitle("C\u00E1lculo de Promedio");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -66,7 +76,7 @@ public class Ejercicio4 extends JFrame {
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
-		panel.setLayout(new MigLayout("", "[69.00][grow][52.00][80.00,grow][40][grow]", "[][][][][][][][]"));
+		panel.setLayout(new MigLayout("", "[69.00,grow][grow][52.00,grow][80.00,grow][40][grow]", "[][][][][][81.00,grow]"));
 		
 		JLabel lblNewLabel_1 = new JLabel("Nombre: ");
 		panel.add(lblNewLabel_1, "cell 0 0,alignx trailing");
@@ -96,27 +106,70 @@ public class Ejercicio4 extends JFrame {
 		panel.add(txtNota3, "cell 5 1,growx");
 		txtNota3.setColumns(10);
 		
-		JButton btnCalcular = new JButton("Calcular");
+		JButton btnNewButton = new JButton("Mostrar Datos");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				mostrarLista();
+			}
+		});
+		panel.add(btnNewButton, "cell 1 2");
+		
+		JButton btnCalcular = new JButton("Calcular e insertar");
 		btnCalcular.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				calcular();
 			}
 		});
-		panel.add(btnCalcular, "cell 4 3");
+		panel.add(btnCalcular, "cell 3 2 2 1");
 		
 		JLabel lblNewLabel_5 = new JLabel("Promedio: ");
-		panel.add(lblNewLabel_5, "cell 0 6");
+		panel.add(lblNewLabel_5, "cell 0 3");
 		
 		lblPromedio = new JLabel("");
-		panel.add(lblPromedio, "cell 1 6 5 1");
+		panel.add(lblPromedio, "cell 1 3 5 1");
 		
 		JLabel lblNewLabel_6 = new JLabel("Resultado:");
-		panel.add(lblNewLabel_6, "cell 0 7");
+		panel.add(lblNewLabel_6, "cell 0 4");
 		
 		lblResultado = new JLabel("");
-		panel.add(lblResultado, "cell 1 7 5 1");
+		panel.add(lblResultado, "cell 1 4 5 1");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, "cell 0 5 6 1,grow");
+		
+		tablaAlumnos = new JTable();
+		tablaAlumnos.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Nombre", "Nota 1", "Nota 2", "Nota 3", "Nota media"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Double.class, Double.class, Double.class, Double.class
+			};
+			public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		scrollPane.setViewportView(tablaAlumnos);
 	}
 	
+
+
+	protected void mostrarLista() {
+	
+		DefaultTableModel modelo = (DefaultTableModel) tablaAlumnos.getModel();
+		modelo.setRowCount(0);
+		for (Alumno alumno : listaAlumnos) {
+			Object fila [] = {
+					alumno.getNombre(), alumno.getNota1(), alumno.getNota2(),
+					alumno.getNota3(), alumno.getNotaMedia()
+			};
+			modelo.addRow(fila);
+		}
+	}
+
 	public void calcular () {
 		String nombre = txtNombre.getText();
 		if (txtNota1.getText()==null || txtNota1.getText().equals("") ||
@@ -128,16 +181,19 @@ public class Ejercicio4 extends JFrame {
 			double nota2 = Double.parseDouble(txtNota2.getText());
 			double nota3 = Double.parseDouble(txtNota3.getText());
 			
-			double media = (nota1+nota2+nota3)/3;
-			lblPromedio.setText( String.format("%.2f",media) );
+			Alumno al = new Alumno(nombre,nota1,nota2,nota3);
+			listaAlumnos.add(al);
 			
-			if (media>=5) {
+			
+			lblPromedio.setText( String.format("%.2f",al.getNotaMedia()) );
+			
+			if (al.getNotaMedia()>=5) {
 				lblResultado.setText(nombre + " ha superado la asignatura");
 			} else {
 				lblResultado.setText(nombre + ", toca recuperar");
 			}
 		}
-		
+		mostrarLista();
 		
 		
 	}
