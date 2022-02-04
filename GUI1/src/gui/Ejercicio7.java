@@ -14,6 +14,8 @@ import javax.swing.JRadioButton;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.ButtonGroup;
+import javax.swing.JList;
+import javax.swing.AbstractListModel;
 
 public class Ejercicio7 extends JFrame {
 
@@ -46,7 +48,7 @@ public class Ejercicio7 extends JFrame {
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(new MigLayout("", "[][][135.00][][grow]", "[][][][][][60.00]"));
+		contentPane.setLayout(new MigLayout("", "[][][135.00,grow][][grow]", "[][][][][][60.00,grow]"));
 		
 		JLabel lblNewLabel = new JLabel("Selecciona un color");
 		lblNewLabel.setFont(new Font("Verdana", Font.BOLD, 20));
@@ -86,6 +88,9 @@ public class Ejercicio7 extends JFrame {
 		JRadioButton rdbtnMagenta = new JRadioButton("Magenta");
 		buttonGroup.add(rdbtnMagenta);
 		contentPane.add(rdbtnMagenta, "cell 2 4");
+		
+		JList list = new JList();
+		contentPane.add(list, "cell 2 5,grow");
 		rdbtnMagenta.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				colorear(e);
